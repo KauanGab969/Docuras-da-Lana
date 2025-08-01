@@ -18,11 +18,23 @@
          </p>
             <p class="mb-6 text-gray-700"><strong>Porção:</strong> </p>
 
-            <a href="https://wa.me/5511914495903" target="_blank" class="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition">
-                Fazer Pedido pelo WhatsApp
-            </a>
-        </div>
-    </div>
+            <a 
+           href="#"
+            onclick="enviarPedidoWhatsApp(this)"
+            class="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition"
+          >
+            Fazer Pedido pelo WhatsApp
+          </a>
+
+          </div>
+      <script>
+        function enviarPedidoWhatsApp(botao) {
+          const nomeDoItem = document.querySelector('h1').innerText.trim();
+          const mensagem = `Olá! Vi este item no seu site "${nomeDoItem}" e gostaria de fazer um pedido!`;
+          const url = `https://wa.me/5511914495903?text=${encodeURIComponent(mensagem)}`;
+          window.open(url, '_blank');
+        }
+</script>
 
 </body>
 </html>
