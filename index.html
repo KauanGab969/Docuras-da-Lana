@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doçuras da Lana - Doceria Artesanal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #FF80AB;
+            --secondary-color: #F48FB1;
+            --accent-color: #F06292;
+            --light-color: #FCE4EC;
+            --dark-color: #AD1457;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FFF9FB;
+        }
+        
+        .fancy-font {
+            font-family: 'Pacifico', cursive;
+        }
+        
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff80ab' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .slide-container {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100%;
+        }
+        
+        .nav-dot {
+            height: 12px;
+            width: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 0 5px;
+            background-color: var(--light-color);
+            transition: background-color 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            background-color: var(--accent-color);
+        }
+        
+        .menu-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        
+        /* Decorações */
+        .cupcake-icon {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .cupcake-icon::before {
+            content: "🧁";
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <span class="fancy-font text-3xl text-pink-500">Doçuras da Lana</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#inicio" class="text-pink-700 hover:text-pink-500 font-medium transition duration-300">Início</a>
+                <a href="#sobre" class="text-pink-700 hover:text-pink-500 font-medium transition duration-300">Sobre</a>
+                <a href="#cardapio" class="text-pink-700 hover:text-pink-500 font-medium transition duration-300">Cardápio</a>
+                <a href="#contato" class="text-pink-700 hover:text-pink-500 font-medium transition duration-300">Contato</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-toggle" class="text-pink-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-pink-100">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#inicio" class="text-pink-700 hover:text-pink-500 font-medium py-2 transition duration-300">Início</a>
+                <a href="#sobre" class="text-pink-700 hover:text-pink-500 font-medium py-2 transition duration-300">Sobre</a>
+                <a href="#cardapio" class="text-pink-700 hover:text-pink-500 font-medium py-2 transition duration-300">Cardápio</a>
+                <a href="#contato" class="text-pink-700 hover:text-pink-500 font-medium py-2 transition duration-300">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-pattern bg-pink-50 py-16 md:py-24">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0 animate-fadeIn">
+                <h1 class="fancy-font text-4xl md:text-6xl text-pink-600 mb-4">Doçuras da Lana</h1>
+                <p class="text-lg md:text-xl text-pink-800 mb-6">Doces artesanais feitos com amor para tornar seus momentos ainda mais especiais.</p>
+                <div class="flex space-x-4">
+                    <a href="#cardapio" class="btn-primary px-6 py-3 rounded-full text-white font-medium shadow-lg">
+                        Ver Cardápio
+                    </a>
+                    <a href="#contato" class="px-6 py-3 rounded-full border-2 border-pink-400 text-pink-600 font-medium hover:bg-pink-100 transition duration-300">
+                        Contato
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 flex justify-center animate-fadeIn delay-200">
+                <div class="relative w-80 h-80">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="absolute w-full h-full">
+                        <path fill="#FFD1DC" d="M45.7,-77.2C59.9,-69.5,72.7,-58.3,79.9,-44.2C87.2,-30.1,88.9,-13.1,87.1,3.3C85.3,19.7,80,35.5,70.8,48.9C61.6,62.3,48.5,73.3,33.7,78.9C18.9,84.5,2.3,84.7,-13.9,81.5C-30.1,78.3,-45.9,71.7,-58.3,60.9C-70.7,50.1,-79.7,35.1,-83.8,18.8C-87.9,2.5,-87.1,-15.1,-80.8,-30.1C-74.5,-45.1,-62.7,-57.5,-48.8,-65.2C-34.9,-72.9,-18.9,-75.9,-1.9,-73.1C15.1,-70.3,31.5,-84.9,45.7,-77.2Z" transform="translate(100 100)" />
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                         <section class="hero-section flex items-center justify-center">
+        <div class="container mx-auto px-4 text-center">
+                    <!-- logo-ddl -->
+        <img src="Imagens/logo-ddl.png" alt="Logo DDL" class="mx-auto mb-6 w-80 md:w-90">
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Section -->
+    <section id="sobre" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="fancy-font text-4xl text-pink-600 mb-2">Sobre Nós</h2>
+                <div class="w-24 h-1 bg-pink-300 mx-auto"></div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <div class="relative">
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 mx-auto">
+    <!-- Logo por cima do SVG -->
+    <div class="absolute inset-0 flex items-center justify-center">
+        <section class="hero-section flex items-center justify-center">
+            <div class="container mx-auto px-4 text-center">
+                <img src="Imagens/logo-ddl.png" alt="Logo DDL" class="mx-auto w-150 md:w-170">
+            </div>
+        </section>
+    </div>
+
+    <!-- Círculo de fundo com SVG -->
+    <div class="w-full h-full bg-pink-200 rounded-full overflow-hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-full h-full p-12">
+            <path fill="#F06292" d="M352 384H160c-53 0-96-43-96-96s43-96 96-96h192c53 0 96 43 96 96s-43 96-96 96z"/>
+            <circle cx="256" cy="288" r="128" fill="#FF80AB"/>
+            <path fill="#FCE4EC" d="M256 176c-61.8 0-112 50.2-112 112s50.2 112 112 112 112-50.2 112-112-50.2-112-112-112zm0 192c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"/>
+            <circle cx="256" cy="288" r="64" fill="#F8BBD0"/>
+            <circle cx="288" cy="256" r="16" fill="#FFFFFF"/>
+        </svg>
+    </div>
+</div>
+
+                        <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-pink-100 rounded-full -z-10"></div>
+                        <div class="absolute -top-4 -left-4 w-24 h-24 bg-pink-100 rounded-full -z-10"></div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h3 class="text-2xl text-pink-700 mb-4 font-medium">Nossa História</h3>
+                    <p class="text-gray-700 mb-6">
+                        A Doçuras da Lana nasceu da paixão pela confeitaria e do desejo de transformar momentos comuns em experiências doces e memoráveis. Fundada por Lana, uma confeiteira apaixonada, nossa doceria se dedica a criar doces artesanais que encantam não só pelo sabor, mas também pela apresentação.
+                    </p>
+                    <p class="text-gray-700 mb-6">
+                        Cada doce é preparado com ingredientes selecionados e muito carinho, seguindo receitas tradicionais com toques especiais que só a Doçuras da Lana tem. Nossa missão é adoçar a vida das pessoas com criações únicas e deliciosas.
+                    </p>
+                    <div class="flex items-center">
+                        <div class="cupcake-icon mr-3"></div>
+                        <p class="text-pink-600 italic">"Doces feitos com amor para momentos especiais."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Cardápio Section -->
+    <section id="cardapio" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="fancy-font text-4xl text-pink-600 mb-2">Nosso Cardápio</h2>
+                <div class="w-24 h-1 bg-pink-300 mx-auto mb-4"></div>
+                <p class="text-gray-700 max-w-2xl mx-auto">
+                    Conheça algumas das nossas deliciosas opções de doces artesanais.
+                </p>
+            </div>
+            
+            <!-- Categorias -->
+            <div class="flex flex-wrap justify-center mb-8">
+                <button class="category-btn active px-6 py-2 m-2 rounded-full bg-pink-500 text-white font-medium hover:bg-pink-600 transition duration-300" data-category="todos">
+                    Todos
+                </button>
+                <button class="category-btn px-6 py-2 m-2 rounded-full bg-pink-100 text-pink-700 font-medium hover:bg-pink-200 transition duration-300" data-category="tradicionais">
+                    Tradicionais
+                </button>
+                <button class="category-btn px-6 py-2 m-2 rounded-full bg-pink-100 text-pink-700 font-medium hover:bg-pink-200 transition duration-300" data-category="gourmet">
+                    Gourmet
+                </button>
+                <button class="category-btn px-6 py-2 m-2 rounded-full bg-pink-100 text-pink-700 font-medium hover:bg-pink-200 transition duration-300" data-category="bolos">
+                    Bolos
+                </button>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Item 1 -->
+                            <a href="Sub-sites/brigadeiro.html" target="_blank" class="block">
+                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                        <div class="h-48 bg-pink-100 flex items-center justify-center">
+                            <img src="Imagens-Sub-sites/brigadeiro-ddl.png" alt="Brigadeiro-Tradicional" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-medium text-pink-700 mb-2">Brigadeiro Tradicional</h3>
+                            <p class="text-gray-600 mb-4">
+                                Nosso clássico brigadeiro feito com chocolate de alta qualidade e granulado especial.
+                            </p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-pink-600 font-medium">R$ 2,50 / unidade</span>
+                                <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- Item 2 -->
+                                                <a href="Sub-sites/cone-trufado.html" target="_blank" class="block">
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                            <div class="h-48 bg-pink-100 flex items-center justify-center">
+                                <img src="Imagens-Sub-sites/cone-trufado-ddl.png" alt="Cone-Trufado" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-medium text-pink-700 mb-2">Cone Trufado</h3>
+                                <p class="text-gray-600 mb-4">
+                                    Cones Trufados com casca de waffle e delicioso recheio cremoso, com sabores à sua escolha.
+                                </p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-pink-600 font-medium">R$ 10,00 / unidade</span>
+                                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+
+                <!-- Item 3 -->
+                 <a href="Sub-sites/pudim-de-pote.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/Pudim-de-Pote-ddl.png" alt="Pudim-de-Pote" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Pudim de Pote</h3>
+                    <p class="text-gray-600 mb-4">
+                    Esse Pudim é uma ótima sobremesa após uma refeição, leve e delicioso com uma calda suculenta.
+                    </p>
+                    <div class="flex justify-between items-center">
+                    <span class="text-pink-600 font-medium">R$ 10,00 / unidade</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                    </div>
+                </div>
+            </div>
+          </a>
+                <!-- Item 4 -->
+                 <a href="Sub-sites/brownie.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="gourmet">
+                 <div class="h-48 bg-pink-100 flex items-center justify-center">
+                 <img src="Imagens-Sub-sites/brownie-ddl.png" alt="Brownie" class="w-44 h-44 object-cover rounded-lg shadow-lg">
+            </div>
+                <div class="p-6">
+                <h3 class="text-xl font-medium text-pink-700 mb-2">Brownie Recheado</h3>
+                <p class="text-gray-600 mb-4">
+                 Preparado com chocolate premium e recheado com cremes intensos, uma explosão de sabor envolvente, com toque refinado e textura que derrete na boca.
+            </p>
+                <div class="flex justify-between items-center">
+               <span class="text-pink-600 font-medium">R$ 7,00 Tradicional / R$ 9,50 Gourmet / unidade</span>
+                <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Gourmet</span>
+                </div>
+            </div>
+        </div>
+    </a>
+                
+                <!-- Item 5 -->
+                 <a href="Sub-sites/mini-bolo-vulcão.html" target="_blank" class="block">
+                 <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="bolos">
+                <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/mini bolo vulcão-ddl.png" alt="mini-bolo-vulcão" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Mini Bolo Vulcão</h3>
+                    <p class="text-gray-600 mb-4">
+                    Nosso delicioso Mini bolo vulcão feito com chocolate de alta qualidade, granulado e brigadeiro.
+                    </p>
+                    <div class="flex justify-between items-center">
+                    <span class="text-pink-600 font-medium">R$ 15,00 / unidade</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Bolos</span>
+                    </div>
+                </div>
+            </div>
+            </a>
+                <!-- Item 6 -->
+                 <a href="Sub-sites/mini-donuts.html" target="_blank" class="block">
+                            <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                            <div class="h-48 bg-pink-100 flex items-center justify-center">
+                            <img src="Imagens-Sub-sites/mini-donuts-ddl.png" alt="mini-donuts" class="w-44 h-44 object-cover rounded-lg shadow-lg">
+                            </div>
+                            <div class="p-6">
+                            <h3 class="text-xl font-medium text-pink-700 mb-2">Mini Donuts</h3>
+                            <p class="text-gray-600 mb-4">
+                            Donuts de diversos sabores e deliciosas coberturas.
+                            </p>
+                            <div class="flex justify-between items-center">
+                    <span class="text-pink-600 font-medium">R$ 3,00 Tradicional / R$ 3,50 Gourmet / unidade</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                    </div>
+                </div>
+            </div>
+        </a>
+                    <!-- Item 7 -->
+                    <a href="Sub-sites/bolo-de-pote.html" target="_blank" class="block">
+            <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="bolos">
+                <div class="h-48 bg-pink-100 flex items-center justify-center">
+                <img src="Imagens-Sub-sites/bolo-de-pote-ddl.png" alt="bolo-de-pote" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                </div>
+                <div class="p-6">
+                <h3 class="text-xl font-medium text-pink-700 mb-2">Bolo de Pote</h3>
+                <p class="text-gray-600 mb-4">
+                    Bolo de pote recheado, super fofinho e cremoso com sabores para todos os gostos.
+                </p>
+                <div class="flex justify-between items-center">
+                    <span class="text-pink-600 font-medium">R$ 10,00 / unidade</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Bolos</span>
+                </div>
+                </div>
+            </div>
+        </a>
+        <!-- Item 8 -->
+                    <a href="Sub-sites/palha-italiana.html" target="_blank" class="block">
+            <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="gourmet">
+                <div class="h-48 bg-pink-100 flex items-center justify-center">
+                <img src="Imagens-Sub-sites/palha-italiana-ddl.png" alt="palha-italiana" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                </div>
+                <div class="p-6">
+                <h3 class="text-xl font-medium text-pink-700 mb-2">Palha Italiana</h3>
+                <p class="text-gray-600 mb-4">
+                    Palha italiana artesanal, feita com brigadeiro gourmet e biscoitos selecionados. Uma explosão de sabor com toque de elegância em cada pedaço.
+                </p>
+                <div class="flex justify-between items-center">
+                    <span class="text-pink-600 font-medium">R$ 6,00 / unidade</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Gourmet</span>
+                </div>
+                </div>
+            </div>
+        </a>
+        <!-- Item 9 -->
+                    <a href="Sub-sites/cupcake.html" target="_blank" class="block">
+            <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                <div class="h-48 bg-pink-100 flex items-center justify-center">
+                <img src="Imagens-Sub-sites/cupcake-ddl.png" alt="cupcake" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                </div>
+                <div class="p-6">
+                <h3 class="text-xl font-medium text-pink-700 mb-2">Cupcake</h3>
+                <p class="text-gray-600 mb-4">
+                    Cupcake artesanal com massa leve, finalizado com cobertura delicada e toque gourmet. Um mimo doce com sabor e elegância em cada detalhe.
+                </p>
+                <div class="flex justify-between items-center">
+                    <span class="text-pink-600 font-medium">R$ 4,00 Tradicional / R$ 5,00 Gourmet unidade</span>
+                    <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Cupcake</span>
+                </div>
+                </div>
+            </div>
+        </a>
+            <!-- Item 10 -->
+                        <a href="Sub-sites/morango-do-amor.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="gourmet">
+                    <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/morango-do-amor-ddl.png" alt="morango-do-amor" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                    </div>
+                    <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Morango do Amor</h3>
+                    <p class="text-gray-600 mb-4">
+                        Morango fresco envolto em uma camada crocante de caramelo artesanal. Um clássico irresistível com charme e sofisticação em cada mordida.
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-pink-600 font-medium">R$ 10,00 / unidade</span>
+                        <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Gourmet</span>
+                        </div>
+                       </div>
+                      </div>
+                    </a>
+                <!-- Item 11 -->
+                        <a href="Sub-sites/kit-festa-grandes-eventos.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                    <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/kit-festa-ddl.png" alt="kit-festa" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                    </div>
+                    <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Kit Festa Para Grandes Eventos</h3>
+                    <p class="text-gray-600 mb-4">
+                        Kit Festa Para Grandes Eventos, serve até 50 pessoas
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-pink-600 font-medium">R$ 1075,00 / Combo</span>
+                        <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                        </div>
+                       </div>
+                      </div>
+                    </a>
+                 <!-- Item 12 -->
+                        <a href="Sub-sites/kit-festa-pequenos-eventos.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                    <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/kit-festa-ddl.png" alt="kit-festa" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                    </div>
+                    <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Kit Festa Para Pequenos Eventos</h3>
+                    <p class="text-gray-600 mb-4">
+                        Kit Festa Para Pequenos Eventos, serve até 25 pessoas
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-pink-600 font-medium">R$ 500,00 / Combo</span>
+                        <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                        </div>
+                       </div>
+                      </div>
+                    </a>
+                <!-- Item 13 -->
+                        <a href="Sub-sites/kit-só-um-bolinho.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                    <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/kit-festa-ddl.png" alt="kit-festa" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                    </div>
+                    <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Kit Só Um Bolinho</h3>
+                    <p class="text-gray-600 mb-4">
+                        Kit Para Pequenas Comemorações, serve até 12 pessoas
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-pink-600 font-medium">R$ 200,00 / Combo</span>
+                        <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                        </div>
+                       </div>
+                      </div>
+                    </a>
+                                <!-- Item 14 -->
+                        <a href="Sub-sites/lembrancinhas.html" target="_blank" class="block">
+                <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden" data-category="tradicionais">
+                    <div class="h-48 bg-pink-100 flex items-center justify-center">
+                    <img src="Imagens-Sub-sites/lembrancinhas-ddl.jpg" alt="lembrancinhas" class="w-40 h-40 object-cover rounded-lg shadow-md">
+                    </div>
+                    <div class="p-6">
+                    <h3 class="text-xl font-medium text-pink-700 mb-2">Lembrancinhas Para Eventos</h3>
+                    <p class="text-gray-600 mb-4">
+                        Mini Donuts Embalados para entregar de lembrancinha aos convidados no final do evento.
+                    </p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-pink-600 font-medium">R$ 5,00 / unidade</span>
+                        <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Tradicional</span>
+                        </div>
+                       </div>
+                      </div>
+                    </a>
+                  </div>
+                </section>
+
+                 <!-- Contato Section -->
+                <section id="contato" class="py-16 bg-pink-50">
+                    <div class="container mx-auto px-4">
+                        <div class="text-center mb-12">
+                            <h2 class="fancy-font text-4xl text-pink-600 mb-2">Entre em Contato</h2>
+                            <div class="w-24 h-1 bg-pink-300 mx-auto mb-4"></div>
+                            <p class="text-gray-700 max-w-2xl mx-auto">
+                                Estamos ansiosos para adoçar seu evento! Entre em contato para fazer seu pedido ou tirar dúvidas.
+                            </p>
+                        </div>
+                        
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="text-2xl text-pink-700 mb-4 font-medium">Informações de Contato</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="bg-pink-100 p-3 rounded-full mr-4">
+                                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+    <h4 class="text-lg font-medium text-pink-700">Telefone e Whatsapp</h4>
+    <p class="text-gray-600">
+        <a href="https://wa.me/5511914495903" target="_blank" class="text-pink-600 hover:underline">
+            (11) 91449-5903
+        </a>
+    </p>
+</div>
+
+                            </div>
+                            <div class="flex items-start">
+    <div class="bg-pink-100 p-3 rounded-full mr-4">
+        <svg class="w-6 h-6 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M7.75 2A5.75 5.75 0 002 7.75v8.5A5.75 5.75 0 007.75 22h8.5A5.75 5.75 0 0022 16.25v-8.5A5.75 5.75 0 0016.25 2h-8.5zM12 8.25a3.75 3.75 0 110 7.5 3.75 3.75 0 010-7.5zM18 6.5a1 1 0 11-2 0 1 1 0 012 0zM12 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+        </svg>
+    </div>
+    <div>
+        <h4 class="text-lg font-medium text-pink-700">Instagram</h4>
+        <p class="text-gray-600">
+            <a href="https://www.instagram.com/ducuras_da_lana?igsh=d2tlenNzYnBvazYw&utm_source=qr" target="_blank" class="text-pink-600 hover:underline">
+                @docuras_da_lana
+            </a>
+        </p>
+    </div>
+</div>
+
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-pink-100 p-3 rounded-full mr-4">
+                                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-pink-700">Endereço</h4>
+                                    <p class="text-gray-600">Est. do Rio Acima Km 15, Ponte Alta, Nazaré Paulista - SP</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="bg-pink-100 p-3 rounded-full mr-4">
+                                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium text-pink-700">Horário de Atendimento</h4>
+                                    <p class="text-gray-600">Segunda a Sexta: 9h às 18h</p>
+                                    <p class="text-gray-600">Sábado: 9h às 13h</p>
+                                </div>
+                            </div>
+                        </div>
+                                          </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer class="bg-pink-700 text-white py-12">
+                <div class="container mx-auto px-4">
+                    <div class="flex flex-col md:flex-row justify-between">
+                    
+                    <!-- Coluna 1: Doçuras da Lana -->
+                    <div class="mb-8 md:mb-0 md:w-1/3">
+                        <h3 class="fancy-font text-3xl mb-4">Doçuras da Lana</h3>
+                        <p class="max-w-xs text-pink-200">
+                        Doces artesanais feitos com amor para tornar seus momentos ainda mais especiais.
+                        </p>
+                    </div>
+
+                    <!-- Coluna 2: Links Rápidos -->
+                    <div class="mb-8 md:mb-0 md:w-1/3">
+                        <h4 class="text-xl font-medium mb-4">Links Rápidos</h4>
+                        <ul class="space-y-2">
+                        <li><a href="#inicio" class="text-pink-200 hover:text-white transition duration-300">Início</a></li>
+                        <li><a href="#sobre" class="text-pink-200 hover:text-white transition duration-300">Sobre</a></li>
+                        <li><a href="#cardapio" class="text-pink-200 hover:text-white transition duration-300">Cardápio</a></li>
+                        <li><a href="#contato" class="text-pink-200 hover:text-white transition duration-300">Contato</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Coluna 3: Contato -->
+                    <div class="md:w-1/3">
+                        <h4 class="text-xl font-medium mb-4">Contato</h4>
+                        <ul class="space-y-2 text-left">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                                </svg>
+                            <span class="text-pink-200">Estrada do Rio Acima Km 15, Ponte Alta, Nazaré Paulista - SP</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                        </svg>
+                            <a href="https://wa.me/5511914495903" target="_blank" class="text-pink-200">(11) 91449-5903</a>
+                        </li>
+                        </ul>
+                    </div>
+                    </div>
+
+                    <!-- Rodapé inferior -->
+                    <div class="border-t border-pink-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-pink-200 mb-4 md:mb-0">
+                        &copy; 2025 Doçuras da Lana. Todos os direitos reservados.
+                    </p>
+                    <div class="flex space-x-4">
+                        <!-- Links de redes sociais (como Instagram) -->
+                        <!-- ... -->
+                    </div>
+                    </div>
+                </div>
+                </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-pink-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all duration-300">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+      
+        // Category Filter for Menu
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const menuItems = document.querySelectorAll('.menu-item');
+        const menuItemWrappers = Array.from(menuItems).map(item => item.closest('a'));
+
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove('active', 'bg-pink-500', 'text-white');
+                    btn.classList.add('bg-pink-100', 'text-pink-700');
+                });
+                
+                // Add active class to clicked button
+                button.classList.add('active', 'bg-pink-500', 'text-white');
+                button.classList.remove('bg-pink-100', 'text-pink-700');
+                
+                const category = button.getAttribute('data-category');
+                
+                // Show/hide menu items based on category
+               menuItems.forEach((item, index) => {
+                const wrapper = menuItemWrappers[index];
+                if (category === 'todos' || item.getAttribute('data-category') === category) {
+                    wrapper.classList.remove('hidden');
+                } else {
+                    wrapper.classList.add('hidden');
+                }
+             });
+
+            });
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.add('opacity-0', 'invisible');
+                backToTopButton.classList.remove('opacity-100', 'visible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Form Submission (Demo)
+        const contactForm = document.querySelector('form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Esta é uma demonstração. Em um site real, sua mensagem seria enviada.');
+            contactForm.reset();
+        });
+        
+        // Initialize
+        goToSlide(0);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9616b636e0785f74',t:'MTc1Mjg5MTMzNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
