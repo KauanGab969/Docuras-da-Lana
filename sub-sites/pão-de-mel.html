@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pão de Mel - Doçuras da Lana</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 text-gray-800">
+
+  <div class="max-w-3xl mx-auto mt-12 bg-white shadow-lg rounded-lg overflow-hidden">
+    <img src="../Imagens-Sub-sites/pão-de-mel-ddl.png" alt="pão-de-mel" class="w-full h-64 object-cover">
+
+    <div class="p-6">
+      <h1 class="text-3xl text-pink-700 font-bold mb-2">Pão de Mel</h1>
+      <p class="mb-4 text-gray-600">
+        Nossos pães de mel são recheados com delicioso recheio artesanal e cobertos com chocolate.
+         </p>
+            <p class="mb-4 text-gray-700"><strong>Sabores de Recheio Tradicional:</strong> Brigadeiro e Doce de Leite.</p>
+           <p class="mb-4 text-gray-700"><strong>Sabores de Recheio Gourmet:</strong> Nutella.</p>
+
+            <p class="mb-6 text-gray-700"><strong>Porção:</strong> </p>
+
+            <a
+            href="#"
+            onclick="enviarPedidoWhatsApp(this)"
+            class="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition"
+          >
+            Fazer Pedido pelo WhatsApp
+          </a>
+
+          </div>
+      <script>
+        function enviarPedidoWhatsApp(botao) {
+          const nomeDoItem = document.querySelector('h1').innerText.trim();
+          const mensagem = `Olá! Vi este item no seu site "${nomeDoItem}" e gostaria de fazer um pedido!`;
+          const url = `https://wa.me/5511914495903?text=${encodeURIComponent(mensagem)}`;
+          window.open(url, '_blank');
+        }
+</script>
+
+</body>
+</html>
+

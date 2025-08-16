@@ -8,8 +8,42 @@
 </head>
 <body class="bg-pink-50 text-gray-800">
 
-  <div class="max-w-3xl mx-auto mt-12 bg-white shadow-lg rounded-lg overflow-hidden">
-    <img src="../Imagens-Sub-sites/bolo-de-pote-ddl.png" alt="bolo-de-pote" class="w-full h-64 object-cover">
+  <div class="max-w-3xl mx-auto mt-12 bg-transparent shadow-lg rounded-lg overflow-hidden">
+<!-- Container do Carrossel -->
+<div class="relative w-full max-w-3xl mx-auto">
+  <div class="overflow-hidden rounded-lg">
+    <div id="carousel" class="flex transition-transform duration-500">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-2-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-3-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-4-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-5-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-6-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-7-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/bolo-de-pote-8-ddl.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+
+    </div>
+  </div>
+
+  <!-- Botões -->
+  <button onclick="mudarSlide(-1)" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-pink-600 text-white p-2 rounded-full shadow hover:bg-pink-700">
+    ‹
+  </button>
+  <button onclick="mudarSlide(1)" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-pink-600 text-white p-2 rounded-full shadow hover:bg-pink-700">
+    ›
+  </button>
+</div>
+
+<script>
+  let indice = 0;
+  const carousel = document.getElementById('carousel');
+  const totalSlides = carousel.children.length;
+
+  function mudarSlide(direcao) {
+    indice = (indice + direcao + totalSlides) % totalSlides;
+    carousel.style.transform = `translateX(${-indice * 100}%)`;
+  }
+</script>
+
 
     <div class="p-6">
       <h1 class="text-3xl text-pink-700 font-bold mb-2">Bolo de Pote</h1>
