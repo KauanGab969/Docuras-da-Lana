@@ -9,8 +9,43 @@
 <body class="bg-pink-50 text-gray-800">
 
   <div class="max-w-3xl mx-auto mt-12 bg-white shadow-lg rounded-lg overflow-hidden">
-    <img src="../Imagens-Sub-sites/pão-de-mel-ddl.png" alt="pão-de-mel" class="w-full h-64 object-cover">
+   <!-- Container do Carrossel -->
+<div class="relative w-full max-w-3xl mx-auto">
+  <div class="overflow-hidden rounded-lg">
+    <div id="carousel" class="flex transition-transform duration-500">
+      <img src="../Imagens-Sub-sites/pão-de-mel-ddl-1.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/pão-de-mel-ddl-2.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/pão-de-mel-ddl-3.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/pão-de-mel-ddl-4.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <video class="w-full h-72 object-contain flex-shrink-0 bg-transparent" controls
+        autoplay
+        muted
+        loop
+        playsinline>
+        <source src="../videos-sub-sites/pão-de-mel-1.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 
+  <!-- Botões -->
+  <button onclick="mudarSlide(-1)" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-pink-600 text-white p-2 rounded-full shadow hover:bg-pink-700">
+    ‹
+  </button>
+  <button onclick="mudarSlide(1)" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-pink-600 text-white p-2 rounded-full shadow hover:bg-pink-700">
+    ›
+  </button>
+</div>
+
+<script>
+  let indice = 0;
+  const carousel = document.getElementById('carousel');
+  const totalSlides = carousel.children.length;
+
+  function mudarSlide(direcao) {
+    indice = (indice + direcao + totalSlides) % totalSlides;
+    carousel.style.transform = `translateX(${-indice * 100}%)`;
+  }
+</script>
     <div class="p-6">
       <h1 class="text-3xl text-pink-700 font-bold mb-2">Pão de Mel</h1>
       <p class="mb-4 text-gray-600">
