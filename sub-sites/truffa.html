@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Truffa - Doçuras da Lana</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 text-gray-800">
+
+  <div class="max-w-3xl mx-auto mt-12 bg-white shadow-lg rounded-lg overflow-hidden">
+      <!-- Container do Carrossel -->
+<div class="relative w-full max-w-3xl mx-auto">
+  <div class="overflow-hidden rounded-lg">
+    <div id="carousel" class="flex transition-transform duration-500">
+      <img src="../Imagens-Sub-sites/truffa-ddl-1.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/truffa-ddl-2.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+      <img src="../Imagens-Sub-sites/truffa-ddl-3.jpg" class="w-full h-72 object-contain flex-shrink-0 bg-transparent">
+    </div>
+  </div>
+
+  <!-- Botões -->
+  <button onclick="mudarSlide(-1)" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-pink-600 text-white p-2 rounded-full shadow hover:bg-pink-700">
+    ‹
+  </button>
+  <button onclick="mudarSlide(1)" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-pink-600 text-white p-2 rounded-full shadow hover:bg-pink-700">
+    ›
+  </button>
+</div>
+
+<script>
+  let indice = 0;
+  const carousel = document.getElementById('carousel');
+  const totalSlides = carousel.children.length;
+
+  function mudarSlide(direcao) {
+    indice = (indice + direcao + totalSlides) % totalSlides;
+    carousel.style.transform = `translateX(${-indice * 100}%)`;
+  }
+</script>
+    <div class="p-6">
+      <h1 class="text-3xl text-pink-700 font-bold mb-2">Truffa</h1>
+      <p class="mb-4 text-gray-600">
+        <strong>Casca de Chocolate:</strong> Branco ou Preto.<br>
+        <strong>Recheios:</strong> Limão, Coco, Morango, Maracujá, Ninho e Brigadeiro.<br>
+         </p>
+            <p class="mb-6 text-gray-700"><strong>Porção:</strong> </p>
+
+            <a 
+           href="#"
+            onclick="enviarPedidoWhatsApp(this)"
+            class="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition"
+          >
+            Fazer Pedido pelo WhatsApp
+          </a>
+
+          </div>
+      <script>
+        function enviarPedidoWhatsApp(botao) {
+          const nomeDoItem = document.querySelector('h1').innerText.trim();
+          const mensagem = `Olá! Vi este item no seu site "${nomeDoItem}" e gostaria de fazer um pedido!`;
+          const url = `https://wa.me/5511914495903?text=${encodeURIComponent(mensagem)}`;
+          window.open(url, '_blank');
+        }
+</script>
+
+
+</body>
+</html>
+
